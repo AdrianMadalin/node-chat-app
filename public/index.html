@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Node chat app</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <p>Hello from app</p>
+<p class="response1"> </p>
+<p class="response2"> </p>
 
 <script src="/socket.io/socket.io.js"></script>
-<script>
-    let socket = io();  // create connection to socket
-    socket.on('connect', () => {
-        console.log('Client connected');
-    });
-
-    socket.on('disconnect', (reason) => {
-        console.log('Client disconnect');
-        console.log(reason);
-    });
-
-    socket.on('pong', (latency) => {
-        console.log(latency);
-    });
-</script>
+<script src="/js/index.js"></script>
 
 </body>
 </html>
