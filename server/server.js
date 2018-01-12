@@ -17,12 +17,14 @@ io.on('connection', function (socket) {
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
     socket.broadcast.emit('newMessage', generateMessage('Radu', 'Joined chat app'));
 
-    socket.on('createMessage', (message) => {
-        console.log(message);
-        io.emit('newMessage', generateMessage(message.from, message.text));
-        // socket.broadcast.emit('newMessage', generateMessage(message.from, message.text));
+    socket.on('createMessage', (message, callback) => {
+        console.log(message, `\n line 21`);
+        io.emit('newMessage', generateMessage(message.from, message.message));
+        callback({
+            user: message.user,
+            message: message.message
+        });
     });
-
 
     socket.on('disconnect', function () {
         console.log('user disconnected');
@@ -30,6 +32,7 @@ io.on('connection', function (socket) {
 });
 
 app.use(express.static(publicPath));
+app.use(express.static(path.join(__dirname, '../node_modules')));
 
 server.listen(port, () => {
     console.log(`App started on port ${port}`);
