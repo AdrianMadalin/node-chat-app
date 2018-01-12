@@ -15,20 +15,13 @@ socket.on('disconnect', function(reason) {
 
  socket.on('newMessage', function (res) {
      if (res.length !== 0){
-        $('.response1').text(`From: ${res.user}`);
-        $('.response2').text(`Message: ${res.message}`);
+        $('.response1').text(`From: ${res.from}`);
+        $('.response2').text(`Message: ${res.text}`);
          console.log(res);
      }
  });
 
- socket.on('clientMessage', function (res) {
-     if (res.length !== 0){
-        $('.response1').text(`From: ${res.user}`);
-        $('.response2').text(`Message: ${res.message}`);
-         console.log(res);
-     }
- });
-
+// socket.emit('createMessage',{from: 'Fanel', text: 'Salut'});
 
 
 
