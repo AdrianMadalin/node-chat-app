@@ -3,25 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Node chat app</title>
-    <!--<script-->
-            <!--src="https://code.jquery.com/jquery-3.2.1.min.js"-->
-            <!--integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="-->
-            <!--crossorigin="anonymous"></script>-->
+    <link rel="stylesheet" href="./css/styles.css">
     <script src="/jquery/dist/jquery.min.js"></script>
 </head>
-<body>
-<p>Hello from app</p>
+<body class="chat">
+<div class="chat__sidebar">
+    <h3>People</h3>
+    <div id="users">
 
-<ol id="messages"></ol>
+    </div>
+</div>
+<div class="chat__main">
+    <ol id="messages" class="chat__messages"></ol>
 
-<form id="message-form">
-    <input type="text"
-           placeholder="type here..."
-           name="message"
-           required>
-    <button type="submit">Send</button>
-</form>
-<button id="send-location">Send location</button>
+    <div class="chat__footer">
+        <form id="message-form">
+            <input type="text"
+                   placeholder="type here..."
+                   name="message"
+                   required
+                   autocomplete="off"
+                   autofocus>
+            <button type="submit">Send</button>
+        </form>
+        <button id="send-location">Send location</button>
+    </div>
+</div>
 
 
 <script src="/socket.io/socket.io.js"></script>

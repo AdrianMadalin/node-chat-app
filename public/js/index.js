@@ -32,12 +32,14 @@ socket.on('newLocationMessage', function (locMessage) {
 });
 
 $('#message-form').on('submit', function (e) {
+    let messageTextBox = $('[name=message]');
+
     e.preventDefault();
     socket.emit('createMessage', {
         from: 'User',
-        message: $('[name=message]').val()
+        message: messageTextBox.val()
     }, function (response) {
-        // console.log(JSON.stringify(response,undefined,2));
+        messageTextBox.val('');
     });
 });
 
@@ -47,14 +49,21 @@ locationButton.on('click', function (e) {
     if (!navigator.geolocation) {
         return alert(`Geolocation not supported by your browser`);
     }
+
+    locationButton.attr('disabled', true).text('Sending address...');
+
     navigator.geolocation.getCurrentPosition(function (position) {
+        locationButton.removeAttr('disabled', false).text('Send location');
+
         socket.emit('createLocationMssage', {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         });
         console.log(position);
     }, function (error) {
+        locationButton.removeAttr('disabled', false).text('Send location');
+
         return alert(`Unable tp share location`);
-    })
+    });
 });
 

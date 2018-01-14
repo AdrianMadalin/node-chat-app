@@ -20,10 +20,7 @@ io.on('connection', function (socket) {
     socket.on('createMessage', (message, callback) => {
         console.log(message, `\n line 21`);
         io.emit('newMessage', generateMessage(message.from, message.message));
-        callback({
-            user: message.user,
-            message: message.message
-        });
+        callback();
     });
 
     socket.on('createLocationMssage', (coords) => {
