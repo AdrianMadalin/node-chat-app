@@ -4,6 +4,23 @@ $(document).ready(function () {
 
 let socket = io();  // create connection to socket
 
+function scrollToBottom() {
+    // selectors
+    let messages = $('#messages');
+    let newMessage = messages.children('li:last-child');
+    // heights
+    let clientHeight = messages.prop('clientHeight');
+    let scrollTop = messages.prop('scrollTop');
+    let scrollHeight = messages.prop('scrollHeight');
+    let newMessageHeight = newMessage.innerHeight();
+    let lastMessageHeight = newMessage.prev().innerHeight();
+
+    if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+        messages.scrollTop(scrollHeight);
+    }
+}
+
+
 socket.on('connect', function () {
     console.log('Client connected');
 });
@@ -14,21 +31,30 @@ socket.on('disconnect', function (reason) {
 });
 
 socket.on('newMessage', function (message) {
-    console.log('New message ', message);
-    let li = $('<li></li>');
-    li.text(`${message.from}: ${message.text}`);
-    $('#messages').append(li);
+    let formatedTime = moment(message.createdAt).format('h:mm a');
+    let template = $('#message-template').html();
+    let html = Mustache.render(template, {
+        text: message.text,
+        from: message.from,
+        createdAt: formatedTime
+    });
+    $('#messages').append(html);
+
+    scrollToBottom();
 });
 
-socket.on('newLocationMessage', function (locMessage) {
-    console.log('New message ', locMessage);
+socket.on('newLocationMessage', function (message) {
+    console.log('New message ', message);
+    let formatedTime = moment(message.createdAt).format('h:mm a');
+    let template = $('#location-message-template').html();
+    let html = Mustache.render(template, {
+        from: message.from,
+        url: message.url,
+        createdAt: formatedTime
+    });
 
-    let li = $('<li></li>');
-    let a = $('<a target="_blank">My current location</a>');
-    li.text(`${locMessage.from}: `);
-    a.attr('href', locMessage.url);
-    li.append(a);
-    $('#messages').append(li);
+    $('#messages').append(html);
+    scrollToBottom();
 });
 
 $('#message-form').on('submit', function (e) {
@@ -66,4 +92,3 @@ locationButton.on('click', function (e) {
         return alert(`Unable tp share location`);
     });
 });
-
