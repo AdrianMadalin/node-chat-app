@@ -11,7 +11,6 @@ let server = http.createServer(app);
 let io = socketIO(server);
 
 io.on('connection', function (socket) {
-    let date = new Date();
     console.log('User connected to server');
 
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));

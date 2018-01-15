@@ -20,7 +20,6 @@ describe('generateLocationMessage', ()=>{
         let url = `https://www.google.com/maps?q=${lat},${lng}`;
         let location = generateLocationMessage(from, 1,1);
 
-        console.log(location);
         assert.typeOf(location.url, 'string');
         assert.typeOf(location.from, 'string');
         assert.typeOf(location.createdAt, 'number');
